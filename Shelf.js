@@ -9,15 +9,17 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.id = crypto.randomUUID();
-  this.info = function() {
-    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? 'read' : 'not read yet'} ${this.id} book ID`;
+   this.info = function() {
+    return `${this.title} by ${this.author}, ${this.pages} pages , ${this.read ? 'read' : 'not read yet'}`;
   }
-
 }
+
+ 
 
 function addBookToLibrary(title, author, pages, read) {
     const book = new Book(title, author, pages, read);
     myLibrary.push(book);
+    displayLibrary();
 }
 
 
@@ -32,5 +34,54 @@ function displayLibrary() {
     shelf.appendChild(bookElement);
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 310, true);
+addBookToLibrary('1984', 'George Orwell', 328, false);
+addBookToLibrary('To Kill a Mockingbird', 'Harper Lee', 281, true);
+console.log(myLibrary);
 displayLibrary();
 
+
+const addBookButton = document.getElementById('add-book-button');
+const addBookDiolog = document.getElementById('add-book-dialog');
+const titleInput = document.getElementById('title');
+const authorInput = document.getElementById('author');
+const pagesInput = document.getElementById('pages');
+const selectReadInput = document.getElementById('read-status');
+const submitBookButton = document.getElementById('submit-button');
+
+addBookButton.addEventListener('click', () => {
+    addBookDiolog.showModal();
+});
+
+addBookDiolog.addEventListener("close", () => {
+    addBookButton.returnValue == "default"
+    ? "No return value"
+    : `Book added: ${addBookButton.returnValue}`;
+});
+
+submitBookButton.addEventListener('click', (event) => {
+    event.preventDefault();
+      console.log('Title input:', titleInput);
+    console.log('Author input:', authorInput);
+    console.log('Pages input:', pagesInput);
+    console.log('Read status input:', selectReadInput);
+
+    const title = titleInput.value;
+    const author = authorInput.value;
+    const pages = parseInt(pagesInput.value);
+    const read = selectReadInput.value === 'read';
+    
+    addBookToLibrary(title, author, pages, read);
+
+     titleInput.value = '';
+    authorInput.value = '';
+    pagesInput.value = '';
+    selectReadInput.value = 'not-read';
+    
+   
+    addBookDiolog.close();
+
+    });
+});
