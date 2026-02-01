@@ -15,12 +15,22 @@ function Book(title, author, pages, read) {
 
 }
 
-const TheHobbit = new Book('The Hobbit', 'J.R.R. Tolkien', 310, true, crypto.randomUUID());
-console.log(TheHobbit.info());
-
-function addBookToLibrary(book) {
-  myLibrary.push(book);
+function addBookToLibrary(title, author, pages, read) {
+    const book = new Book(title, author, pages, read);
+    myLibrary.push(book);
 }
-addBookToLibrary(TheHobbit);
+
+
 console.log(myLibrary);
+
+function displayLibrary() {
+  const shelf = document.getElementById("shelf");
+  shelf.innerHTML = '';
+  myLibrary.forEach((book) => {
+    const bookElement = document.createElement('li');
+    bookElement.textContent = book.info();
+    shelf.appendChild(bookElement);
+  });
+}
+displayLibrary();
 
