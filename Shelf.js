@@ -27,13 +27,42 @@ console.log(myLibrary);
 
 function displayLibrary() {
   const shelf = document.getElementById("shelf");
+  
   shelf.innerHTML = '';
   myLibrary.forEach((book) => {
-    const bookElement = document.createElement('li');
+    const bookElement = document.createElement('div');
     bookElement.textContent = book.info();
-    shelf.appendChild(bookElement);
+   
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', () => {
+      const index = myLibrary.findIndex(b => b.id === book.id);
+      if (index !== -1) {
+        myLibrary.splice(index, 1);
+        displayLibrary();
+      }
+    });
+
+    
+  const toggleReadButton = document.createElement('button');
+  toggleReadButton.textContent = book.read ? 'Mark as Not Read' : 'Mark as Read';
+  toggleReadButton.addEventListener('click', () => {
+    book.toggleReadStatus();
+    displayLibrary();
   });
+ 
+  bookElement.appendChild(removeButton);
+  bookElement.appendChild(toggleReadButton);
+  shelf.appendChild(bookElement);
+});
 }
+
+Book.prototype.toggleReadStatus = function() {
+  this.read = !this.read;
+};
+
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
 addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 310, true);
@@ -85,3 +114,5 @@ submitBookButton.addEventListener('click', (event) => {
 
     });
 });
+
+
