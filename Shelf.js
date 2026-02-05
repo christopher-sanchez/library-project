@@ -79,9 +79,14 @@ const authorInput = document.getElementById('author');
 const pagesInput = document.getElementById('pages');
 const selectReadInput = document.getElementById('read-status');
 const submitBookButton = document.getElementById('submit-button');
+const cancelButton = document.querySelector('button[value="cancel"]');
 
 addBookButton.addEventListener('click', () => {
     addBookDiolog.showModal();
+});
+
+cancelButton.addEventListener('click', () => {
+    addBookDiolog.close();
 });
 
 addBookDiolog.addEventListener("close", () => {
